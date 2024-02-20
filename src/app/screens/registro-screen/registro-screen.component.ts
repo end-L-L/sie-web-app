@@ -13,7 +13,7 @@ export class RegistroScreenComponent implements OnInit{
   // Navbar
   public tipo:string = "registro-usuarios";
 
-  //Banderas para tipos de usuario
+  //Banderas para tipos de usuario en el Formulario
   public isAdmin:boolean = false;
   public isAlumno:boolean = false;
   public isMaestro:boolean = false;
@@ -26,6 +26,8 @@ export class RegistroScreenComponent implements OnInit{
   }
 
   public radioChange(event: MatRadioChange) {
+
+    //console.log(event)
 
     if(event.value == "administrador"){
       this.isAdmin = true;
