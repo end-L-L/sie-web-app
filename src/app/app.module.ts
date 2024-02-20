@@ -11,12 +11,14 @@ import { RegistroScreenComponent } from './screens/registro-screen/registro-scre
 
 //Angular Material
 import {MatRadioModule} from '@angular/material/radio';
+import { NavbarComponent } from './partials/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginScreenComponent,
-    RegistroScreenComponent
+    RegistroScreenComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

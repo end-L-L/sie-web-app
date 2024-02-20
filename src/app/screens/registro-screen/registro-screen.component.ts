@@ -9,7 +9,11 @@ import { MatRadioChange } from '@angular/material/radio';
 export class RegistroScreenComponent implements OnInit{
 
   public user:any = {};
-  //Banderas para tipos de usuarios
+
+  // Navbar
+  public tipo:string = "registro-usuarios";
+
+  //Banderas para tipos de usuario
   public isAdmin:boolean = false;
   public isAlumno:boolean = false;
   public isMaestro:boolean = false;
