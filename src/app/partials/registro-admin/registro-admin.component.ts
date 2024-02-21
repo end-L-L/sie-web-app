@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AdminService } from 'src/app/services/admin.service';
 
 //JQuery
 declare var $:any;
@@ -10,28 +11,44 @@ declare var $:any;
 })
 export class RegistroAdminComponent implements OnInit{
 
-  constructor(){}
-
-  ngOnInit(): void {
-
-  }
-
   @Input() rol: string = "";
 
   public admin:any = {};
   public editar:boolean = false;
+
+  // Servicios x Errores
   public errors:any = {};
-  //Para contraseñas
+
+  //Contraseñas
   public hide_1: boolean = false;
   public hide_2: boolean = false;
   public inputType_1: string = 'password';
   public inputType_2: string = 'password';
 
+  constructor(
+    private adminService: AdminService
+  ){}
+
+  ngOnInit(): void {
+    //Definir el esquema a mi JSON
+    this.admin = this.adminService.esquemaAdmin();
+    this.admin.rol = this.rol;
+    console.log("Admin: ", this.admin);
+    console.log("Rol: ", this.rol);
+  }
+
   public regresar() {
 
   }
-  public registrar(){
 
+  public registrar(){
+    //Validar
+    this.errors = [];
+
+    this.errors = this.adminService.validarAdmin(this.admin, this.editar)
+    if(!$.isEmptyObject(this.errors)){
+      return false;
+    }
   }
 
   public actualizar(){
