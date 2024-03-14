@@ -21,7 +21,7 @@ const session_cookie_name = 'sie-web-token';
 const user_email_cookie_name = 'sie-web-email';
 const user_id_cookie_name = 'sie-web-user_id';
 const user_complete_name_cookie_name = 'sie-web-user_complete_name';
-const group_name_cookie_name = 'sie-group_name';
+const group_name_cookie_name = 'sie-web-group_name';
 
 
 @Injectable({
@@ -87,12 +87,17 @@ export class FacadeService {
 
   saveUserData(user_data:any){
     var secure = environment.url_api.indexOf("https")!=-1;
-
-    this.cookieService.set(user_id_cookie_name, user_data.id, undefined, undefined, undefined, secure, secure?"None":"Lax");
-    this.cookieService.set(user_email_cookie_name, user_data.email, undefined, undefined, undefined, secure, secure?"None":"Lax");
+    if(user_data.rol == "administrador"){
+      this.cookieService.set(user_id_cookie_name, user_data.id, undefined, undefined, undefined, secure, secure?"None":"Lax");
+      this.cookieService.set(user_email_cookie_name, user_data.email, undefined, undefined, undefined, secure, secure?"None":"Lax");
+      this.cookieService.set(user_complete_name_cookie_name, user_data.first_name + " " + user_data.last_name, undefined, undefined, undefined, secure, secure?"None":"Lax");
+    }else{
+      this.cookieService.set(user_id_cookie_name, user_data.user.id, undefined, undefined, undefined, secure, secure?"None":"Lax");
+      this.cookieService.set(user_email_cookie_name, user_data.user.email, undefined, undefined, undefined, secure, secure?"None":"Lax");
+      this.cookieService.set(user_complete_name_cookie_name, user_data.user.first_name + " " + user_data.user.last_name, undefined, undefined, undefined, secure, secure?"None":"Lax");
+    }
     this.cookieService.set(session_cookie_name, user_data.token, undefined, undefined, undefined, secure, secure?"None":"Lax");
-    this.cookieService.set(user_complete_name_cookie_name, user_data.first_name + " " + user_data.last_name, undefined, undefined, undefined, secure, secure?"None":"Lax");
-    this.cookieService.set(group_name_cookie_name, user_data.roles, undefined, undefined, undefined, secure, secure?"None":"Lax");
+    this.cookieService.set(group_name_cookie_name, user_data.rol, undefined, undefined, undefined, secure, secure?"None":"Lax");
   }
 
   destroyUser(){
