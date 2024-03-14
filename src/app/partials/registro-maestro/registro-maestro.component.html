@@ -94,6 +94,7 @@
             </mat-checkbox>
           </div>
         </div>
+        <div *ngIf="errors.materias_json" class="invalid-feedback">{{ errors.materias_json }}</div>
 
         <div class="section-buttons">
             <button class="btn btn-danger" (click)="regresar()">Cancelar</button>

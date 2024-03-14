@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ValidatorService } from './tools/validator.service';
 import { ErrorsService } from './tools/errors.service';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +15,7 @@ import { ErrorsService } from './tools/errors.service';
 export class AdminService {
 
   constructor(
+    private http: HttpClient,
     private validatorService: ValidatorService,
     private errorService: ErrorsService,
   ) { }
@@ -89,5 +97,11 @@ export class AdminService {
 
     //Return arreglo
     return error;
+  }
+
+  // Servicios HTTP
+  // Servicio Para Registrar Admin
+  public registrarAdmin (data: any): Observable <any>{
+    return this.http.post<any>(`${environment.url_api}/admin/`,data, httpOptions);
   }
 }

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AdminService } from 'src/app/services/admin.service';
 
 //JQuery
@@ -26,7 +27,8 @@ export class RegistroAdminComponent implements OnInit{
   public inputType_2: string = 'password';
 
   constructor(
-    private adminService: AdminService
+    private adminService: AdminService,
+    private router: Router
   ){}
 
   ngOnInit(): void {
@@ -45,9 +47,25 @@ export class RegistroAdminComponent implements OnInit{
     //Validar
     this.errors = [];
 
-    this.errors = this.adminService.validarAdmin(this.admin, this.editar)
+    this.errors = this.adminService.validarAdmin(this.admin, this.editar);
     if(!$.isEmptyObject(this.errors)){
       return false;
+    }
+
+    if(this.admin.password == this.admin.confirmar_password){
+      this.adminService.registrarAdmin(this.admin).subscribe({
+        next: (response) => {
+          alert("Usuario Registrado Correctamente");
+          this.router.navigate(["/"]);
+        },
+        error: (error) => {
+          alert("¡Error!: No se Pudo Registrar Usuario");
+        }
+      });
+    } else {
+      alert("¡Error!: Las contraseñas no Coinciden");
+      this.admin.password = "";
+      this.admin.confirmar_password = "";
     }
   }
 
