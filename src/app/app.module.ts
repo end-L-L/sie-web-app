@@ -33,6 +33,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     RegistroAdminComponent,
     RegistroAlumnoComponent,
     RegistroMaestroComponent,
-    HomeScreenComponent
+    HomeScreenComponent,
+    AdminScreenComponent
   ],
   imports: [
     BrowserModule,
