@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { AlumnoService } from 'src/app/services/alumno.service';
+import { Router } from '@angular/router';
 
 //JQuery
 declare var $:any;
@@ -17,7 +18,7 @@ export class RegistroAlumnoComponent implements OnInit{
   public alumno:any = {};
   public editar:boolean = false;
 
-  //Servicios x Errores
+  // Servicios x Errores
   public errors:any = {};
 
   // Contraseñas
@@ -26,8 +27,8 @@ export class RegistroAlumnoComponent implements OnInit{
   public inputType_1: string = 'password';
   public inputType_2: string = 'password';
 
-
   constructor(
+    private router: Router,
     private location: Location,
     private alumnoService: AlumnoService
   ){}
@@ -73,6 +74,22 @@ export class RegistroAlumnoComponent implements OnInit{
     this.errors = this.alumnoService.validarAlumno(this.alumno, this.editar);
     if(!$.isEmptyObject(this.errors)){
       return false;
+    }
+
+    if(this.alumno.password == this.alumno.confirmar_password){
+      this.alumnoService.registrarAlumno(this.alumno).subscribe({
+        next: (response) => {
+          alert("Usuario Registrado Correctamente");
+          this.router.navigate(["/"]);
+        },
+        error: (error) => {
+          alert("¡Error!: No se Pudo Registrar Usuario");
+        }
+      });
+    } else {
+      alert("¡Error!: Las contraseñas no Coinciden");
+      this.alumno.password = "";
+      this.alumno.confirmar_password = "";
     }
   }
 
