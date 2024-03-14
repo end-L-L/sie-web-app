@@ -34,6 +34,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
+import { AlumnoScreenComponent } from './screens/alumno-screen/alumno-screen.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AdminScreenComponent } from './screens/admin-screen/admin-screen.compon
     RegistroAlumnoComponent,
     RegistroMaestroComponent,
     HomeScreenComponent,
-    AdminScreenComponent
+    AdminScreenComponent,
+    AlumnoScreenComponent
   ],
   imports: [
     BrowserModule,

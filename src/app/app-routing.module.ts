@@ -4,12 +4,14 @@ import { LoginScreenComponent } from './screens/login-screen/login-screen.compon
 import { RegistroScreenComponent } from './screens/registro-screen/registro-screen.component';
 import { HomeScreenComponent } from './screens/home-screen/home-screen.component';
 import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
+import { AlumnoScreenComponent } from './screens/alumno-screen/alumno-screen.component';
 
 const routes: Routes = [
   { path: '', component: LoginScreenComponent, pathMatch:'full' },
   { path: 'registro-usuarios', component: RegistroScreenComponent, pathMatch:'full' },
   { path: 'home', component: HomeScreenComponent, pathMatch:'full' },
-  { path: 'administrador', component: AdminScreenComponent, pathMatch:'full' }
+  { path: 'administrador', component: AdminScreenComponent, pathMatch:'full' },
+  { path: 'alumno', component: AlumnoScreenComponent, pathMatch:'full' },
 ];
 
 @NgModule({
