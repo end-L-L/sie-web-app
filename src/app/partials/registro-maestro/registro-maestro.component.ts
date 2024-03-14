@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { MaestroService } from 'src/app/services/maestro.service';
+import { Router } from '@angular/router';
 
 //JQuery
 declare var $:any;
@@ -50,6 +51,7 @@ export class RegistroMaestroComponent implements OnInit{
     ];
 
   constructor(
+    private router: Router,
     private location : Location,
     private maestroService: MaestroService
   ){}
@@ -98,6 +100,22 @@ export class RegistroMaestroComponent implements OnInit{
     this.errors = this.maestroService.validarMaestro(this.maestro, this.editar);
     if(!$.isEmptyObject(this.errors)){
       return false;
+    }
+
+    if(this.maestro.password == this.maestro.confirmar_password){
+      this.maestroService.registrarMaestro(this.maestro).subscribe({
+        next: (response) => {
+          alert("Usuario Registrado Correctamente");
+          this.router.navigate(["/"]);
+        },
+        error: (error) => {
+          alert("¡Error!: No se Pudo Registrar Usuario");
+        }
+      });
+    } else {
+      alert("¡Error!: Las contraseñas no Coinciden");
+      this.maestro.password = "";
+      this.maestro.confirmar_password = "";
     }
   }
 

@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ValidatorService } from './tools/validator.service';
 import { ErrorsService } from './tools/errors.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +15,7 @@ import { ErrorsService } from './tools/errors.service';
 export class MaestroService {
 
   constructor(
+    private http: HttpClient,
     private validatorService: ValidatorService,
     private errorService: ErrorsService,
   ) { }
@@ -92,9 +100,16 @@ export class MaestroService {
     }
 
     if(data["materias_json"].length == 0){
-      alert("Debes seleccionar materias para poder registrarte.");
+      //alert("Debes seleccionar materias para poder registrarte.");
+      error["materias_json"] = this.errorService.required;
     }
     //Return arreglo
     return error;
+  }
+
+  // Servicios HTTP
+  // Servicio Para Registrar Alumno
+  public registrarMaestro (data: any): Observable <any>{
+    return this.http.post<any>(`${environment.url_api}/maestro/`,data, httpOptions);
   }
 }
