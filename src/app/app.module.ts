@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 // Components
 import { LoginScreenComponent } from './screens/login-screen/login-screen.component';
 import { RegistroScreenComponent } from './screens/registro-screen/registro-screen.component';
+import { HomeScreenComponent } from './screens/home-screen/home-screen.component';
 
 // Partials
 import { NavbarComponent } from './partials/navbar/navbar.component';
@@ -41,7 +42,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     NavbarComponent,
     RegistroAdminComponent,
     RegistroAlumnoComponent,
-    RegistroMaestroComponent
+    RegistroMaestroComponent,
+    HomeScreenComponent
   ],
   imports: [
     BrowserModule,
