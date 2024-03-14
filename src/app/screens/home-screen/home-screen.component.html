@@ -1,1 +1,20 @@
-<p>home-screen works!</p>
+<div class="wrapper">
+  <div class="section-home">
+    <div class="body-home">
+      <!-- Home Admin -->
+      <section class="home-admin" *ngIf="rol == 'administrador'">
+        <app-admin-screen></app-admin-screen>
+      </section>
+
+      <!-- Home Alumno -->
+      <section class="home-alumno" *ngIf="rol == 'alumno'">
+        <app-alumno-screen></app-alumno-screen>
+      </section>
+
+      <!-- Home Alumno -->
+      <section class="home-maestro" *ngIf="rol == 'maestro'">
+        <app-maestro-screen></app-maestro-screen>
+      </section>
+    </div>
+  </div>
+</div>

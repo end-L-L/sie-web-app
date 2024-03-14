@@ -1,4 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+// JQuery
+declare var $:any;
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +14,9 @@ export class NavbarComponent implements OnInit{
 
   public token:string = "";
 
-  constructor(){}
+  constructor(
+    private router: Router
+  ){}
 
   ngOnInit(): void {
 
@@ -18,5 +24,18 @@ export class NavbarComponent implements OnInit{
 
   public logout(){
 
+  }
+
+  public clickNavLink(link: string){
+    this.router.navigate([link]);
+    setTimeout(() => {
+      this.activarLink(link);
+    }, 100);
+  }
+
+  public activarLink(link: string){
+    if(link == "home"){
+
+    }
   }
 }
