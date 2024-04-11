@@ -37,7 +37,7 @@ export class FacadeService {
     private cookieService: CookieService,
   ) { }
 
-  //Funcion para Validar Login
+  // Funcion para Validar Login
   public validarLogin(username: String, password: String){
     var data = {
       "username": username,
@@ -61,7 +61,7 @@ export class FacadeService {
     return error;
   }
 
-  //Iniciar Sesión
+  // Iniciar Sesión
   login(username:String, password:String): Observable<any> {
     var data={
       username: username,
@@ -70,9 +70,17 @@ export class FacadeService {
     return this.http.post<any>(`${environment.url_api}/token/`,data);
   }
 
-   //Funciones para Cookies
+  // Cerrar Sesión
+  logout(): Observable<any> {
+    var headers: any;
+    var token = this.getSessionToken();
+    headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
+    return this.http.get<any>(`${environment.url_api}/logout/`, {headers: headers});
+  }
 
-   getCookieValue(key:string){
+  //Funciones para Cookies
+
+  getCookieValue(key:string){
     return this.cookieService.get(key);
   }
 

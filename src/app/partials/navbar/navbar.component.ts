@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FacadeService } from 'src/app/services/facade.service';
 
 // JQuery
 declare var $:any;
@@ -13,17 +14,34 @@ export class NavbarComponent implements OnInit{
   @Input() tipo:string = "";
 
   public token:string = "";
+  public rol:string = "";
 
   constructor(
+    private facadeService: FacadeService,
     private router: Router
   ){}
 
   ngOnInit(): void {
-
+    this.rol = this.facadeService.getUserGroup();
+    this.token = this.facadeService.getSessionToken();
   }
 
   public logout(){
+    this.facadeService.logout().subscribe({
+      next: () => {
+        // Elimina el Token de la Sesión
+        this.facadeService.destroyUser();
+        // Navega al Login
+        this.router.navigate(["/"]);
+      },
+      error: (error: any) => {
+        console.error(error);
+      }
+    });
+  }
 
+  public goRegistro(){
+    this.router.navigate(["registro-usuarios"]);
   }
 
   public clickNavLink(link: string){
@@ -34,8 +52,23 @@ export class NavbarComponent implements OnInit{
   }
 
   public activarLink(link: string){
-    if(link == "home"){
-
+    if(link == "alumnos"){
+      $("#principal").removeClass("active");
+      $("#maestro").removeClass("active");
+      $("#alumno").addClass("active");
+    }else if(link == "maestros"){
+      $("#principal").removeClass("active");
+      $("#alumno").removeClass("active");
+      $("#maestro").addClass("active");
+    }else if(link == "home"){
+      $("#alumno").removeClass("active");
+      $("#maestro").removeClass("active");
+      $("#principal").addClass("active");
+    }else if(link == "graficas"){
+      $("#alumno").removeClass("active");
+      $("#maestro").removeClass("active");
+      $("#principal").removeClass("active");
+      $("#graficas").addClass("active");
     }
   }
 }

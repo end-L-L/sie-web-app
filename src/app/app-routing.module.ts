@@ -12,8 +12,8 @@ const routes: Routes = [
   { path: 'registro-usuarios', component: RegistroScreenComponent, pathMatch:'full' },
   { path: 'home', component: HomeScreenComponent, pathMatch:'full' },
   { path: 'administrador', component: AdminScreenComponent, pathMatch:'full' },
-  { path: 'alumno', component: AlumnoScreenComponent, pathMatch:'full' },
-  { path: 'maestro', component: MaestroScreenComponent, pathMatch:'full' },
+  { path: 'alumnos', component: AlumnoScreenComponent, pathMatch:'full' },
+  { path: 'maestros', component: MaestroScreenComponent, pathMatch:'full' },
 ];
 
 @NgModule({
