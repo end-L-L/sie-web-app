@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AdminService } from 'src/app/services/admin.service';
 import { FacadeService } from 'src/app/services/facade.service';
 
 @Component({
@@ -6,16 +8,43 @@ import { FacadeService } from 'src/app/services/facade.service';
   templateUrl: './admin-screen.component.html',
   styleUrls: ['./admin-screen.component.scss']
 })
+
 export class AdminScreenComponent implements OnInit{
 
-  public rol:string = "";
+  public name_user:string = "";
+  public lista_admins:any[]= [];
 
   constructor(
-    private facadeService: FacadeService
+    private facadeService: FacadeService,
+    private adminService: AdminService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.rol = this.facadeService.getUserGroup();
+    this.name_user = this.facadeService.getUserCompleteName();
+    // Lista de Admins
+    this.obtenerAdmins();
   }
 
+   // Obtener Lista de Administradores
+  public obtenerAdmins(){
+    this.adminService.obtenerListaAdmins().subscribe({
+      next: (response)=>{
+        this.lista_admins = response;
+        console.log("Lista users: ", this.lista_admins);
+      },
+      error: (error)=>{
+        alert("No se pudo obtener la lista de admins");
+      }
+    });
+  }
+
+  // Función Editar Admin
+  public goEditar(idUser: number){
+    //this.router.navigate(["registro/"+idUser]);
+  }
+
+  public delete(idUser: number){
+
+  }
 }

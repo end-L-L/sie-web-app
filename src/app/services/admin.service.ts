@@ -4,6 +4,7 @@ import { ErrorsService } from './tools/errors.service';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { FacadeService } from './facade.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -12,12 +13,14 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+
 export class AdminService {
 
   constructor(
     private http: HttpClient,
     private validatorService: ValidatorService,
     private errorService: ErrorsService,
+    private facadeService: FacadeService
   ) { }
 
   public esquemaAdmin(){
@@ -36,7 +39,7 @@ export class AdminService {
     }
   }
 
-  //Validación para el formulario
+  // Validación para el Formulario
   public validarAdmin(data: any, editar: boolean){
     console.log("Validando admin... ", data);
     let error: any = [];
@@ -95,7 +98,7 @@ export class AdminService {
       error["ocupacion"] = this.errorService.required;
     }
 
-    //Return arreglo
+    // Return Arreglo de Errores
     return error;
   }
 
@@ -103,5 +106,12 @@ export class AdminService {
   // Servicio Para Registrar Admin
   public registrarAdmin (data: any): Observable <any>{
     return this.http.post<any>(`${environment.url_api}/admin/`,data, httpOptions);
+  }
+
+  // Servicio Para Obtener Lista de Admins
+  public obtenerListaAdmins (): Observable <any>{
+    var token = this.facadeService.getSessionToken();
+    var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
+    return this.http.get<any>(`${environment.url_api}/lista-admins/`, {headers:headers});
   }
 }
