@@ -4,6 +4,7 @@ import { ErrorsService } from './tools/errors.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { FacadeService } from './facade.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -12,12 +13,14 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+
 export class MaestroService {
 
   constructor(
     private http: HttpClient,
     private validatorService: ValidatorService,
     private errorService: ErrorsService,
+    private facadeService: FacadeService
   ) { }
 
   public esquemaMaestro(){
@@ -38,7 +41,7 @@ export class MaestroService {
     }
   }
 
-  //Validación para el formulario
+  // Validación para el Formulario
   public validarMaestro(data: any, editar: boolean){
     console.log("Validando maestro... ", data);
     let error: any = [];
@@ -103,7 +106,7 @@ export class MaestroService {
       //alert("Debes seleccionar materias para poder registrarte.");
       error["materias_json"] = this.errorService.required;
     }
-    //Return arreglo
+    // Return Arreglo de Errores
     return error;
   }
 
@@ -111,5 +114,12 @@ export class MaestroService {
   // Servicio Para Registrar Alumno
   public registrarMaestro (data: any): Observable <any>{
     return this.http.post<any>(`${environment.url_api}/maestro/`,data, httpOptions);
+  }
+
+  // Servicio Para Obtener Lista de Maestros
+  public obtenerListaMaestros (): Observable <any>{
+    var token = this.facadeService.getSessionToken();
+    var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
+    return this.http.get<any>(`${environment.url_api}/lista-maestros/`, {headers:headers});
   }
 }
