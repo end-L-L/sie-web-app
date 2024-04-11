@@ -4,6 +4,7 @@ import { ErrorsService } from './tools/errors.service';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FacadeService } from './facade.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -12,12 +13,14 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+
 export class AlumnoService {
 
   constructor(
     private http: HttpClient,
     private validatorService: ValidatorService,
     private errorService: ErrorsService,
+    private facadeService: FacadeService
   ) { }
 
   public esquemaAlumno(){
@@ -38,7 +41,7 @@ export class AlumnoService {
     }
   }
 
-  //Validación para el formulario
+  // Validación Para el Formulario
   public validarAlumno(data: any, editar: boolean){
     console.log("Validando alumno... ", data);
     let error: any = [];
@@ -111,7 +114,7 @@ export class AlumnoService {
       error["ocupacion"] = this.errorService.required;
     }
 
-    //Return arreglo
+    // Return Arreglo de Errores
     return error;
   }
 
@@ -119,5 +122,12 @@ export class AlumnoService {
   // Servicio Para Registrar Alumno
   public registrarAlumno (data: any): Observable <any>{
     return this.http.post<any>(`${environment.url_api}/alumno/`,data, httpOptions);
+  }
+
+  // Servicio Para Obtener Lista de Alumnos
+  public obtenerListaAlumnos (): Observable <any>{
+    var token = this.facadeService.getSessionToken();
+    var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
+    return this.http.get<any>(`${environment.url_api}/lista-alumnos/`, {headers:headers});
   }
 }
