@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlumnoService } from 'src/app/services/alumno.service';
-import { Router } from '@angular/router';
+import { FacadeService } from 'src/app/services/facade.service';
 
 //JQuery
 declare var $:any;
@@ -14,9 +15,12 @@ declare var $:any;
 export class RegistroAlumnoComponent implements OnInit{
 
   @Input() rol: string = "";
+  @Input() datos_user:any = {};
 
   public alumno:any = {};
   public editar:boolean = false;
+  public token: string = "";
+  public idUser: Number = 0;
 
   // Servicios x Errores
   public errors:any = {};
@@ -30,15 +34,29 @@ export class RegistroAlumnoComponent implements OnInit{
   constructor(
     private router: Router,
     private location: Location,
-    private alumnoService: AlumnoService
+    private activatedRoute: ActivatedRoute,
+    private alumnoService: AlumnoService,
+    private facadeService: FacadeService
   ){}
 
   ngOnInit(): void {
-    this.alumno = this.alumnoService.esquemaAlumno();
-    this.rol = this.rol;
+    // Validar Parametro en URL
+    if(this.activatedRoute.snapshot.params['id'] != undefined){
+      this.editar = true;
+      // Asignamos el ID por URL
+      this.idUser = this.activatedRoute.snapshot.params['id'];
+      console.log("ID User: ", this.idUser);
+      // Asignamos los Datos del Maestro
+      this.alumno = this.datos_user;
+    }else{
+      // Esquema -> JSON
+      this.alumno = this.alumnoService.esquemaAlumno();
+      this.alumno.rol = this.rol;
+      this.token = this.facadeService.getSessionToken();
+    }
   }
 
-  // Mostrar password
+  // Mostrar Password
   showPassword(){
     if(this.inputType_1 == 'password'){
       this.inputType_1 = 'text';
@@ -50,7 +68,7 @@ export class RegistroAlumnoComponent implements OnInit{
     }
   }
 
-  // Mostrar confirmar password
+  // Mostrar Confirmar Password
   showPwdConfirmar()
   {
     if(this.inputType_2 == 'password'){
@@ -68,7 +86,7 @@ export class RegistroAlumnoComponent implements OnInit{
   }
 
   public registrar(){
-    //Validar
+    // Validar
     this.errors = [];
 
     this.errors = this.alumnoService.validarAlumno(this.alumno, this.editar);
@@ -93,9 +111,27 @@ export class RegistroAlumnoComponent implements OnInit{
     }
   }
 
-  public actualizar(){}
+  public actualizar(){
+    // Validar
+    this.errors = [];
 
-  //Función para detectar el cambio de fecha
+    this.errors = this.alumnoService.validarAlumno(this.alumno, this.editar);
+    if(!$.isEmptyObject(this.errors)){
+      return false;
+    }
+
+    this.alumnoService.editarAlumno(this.alumno).subscribe({
+      next: (response)=>{
+        alert("Alumno Editado Correctamente");
+        this.router.navigate(["home"]);
+      },
+      error: (error)=>{
+        alert("¡Error!: No se Pudo Editar Alumno");
+      }
+    });
+  }
+
+  // Función para Detectar el Cambio de Fecha
   public changeFecha(event :any){
     console.log(event);
     console.log(event.value.toISOString());

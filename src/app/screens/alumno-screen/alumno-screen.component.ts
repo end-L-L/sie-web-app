@@ -96,7 +96,7 @@ export class AlumnoScreenComponent implements OnInit{
 
   // Función para Editar
   public goEditar(idUser: number){
-    //this.router.navigate(["registro/"+idUser]);
+    this.router.navigate(["registro-usuarios/alumno/"+idUser]);
   }
 
   public delete(idUser: number){

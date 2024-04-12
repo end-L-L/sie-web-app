@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import { ActivatedRoute } from '@angular/router';
 import { AdminService } from 'src/app/services/admin.service';
+import { AlumnoService } from 'src/app/services/alumno.service';
 import { MaestroService } from 'src/app/services/maestro.service';
 
 @Component({
@@ -35,7 +36,8 @@ export class RegistroScreenComponent implements OnInit{
   constructor(
     public activatedRoute: ActivatedRoute,
     private adminService: AdminService,
-    private maestroService: MaestroService
+    private maestroService: MaestroService,
+    private alumnoService: AlumnoService
   ){}
 
   ngOnInit(): void {
@@ -55,7 +57,7 @@ export class RegistroScreenComponent implements OnInit{
     }
   }
 
-  // Función Para Obtener Usuario por ID
+  // Función Para Obtener Usuario por ID y Classificarlo
   public obtenerUserByID(){
     if(this.rol == "administrador"){
       this.adminService.getAdminByID(this.idUser).subscribe({
@@ -75,17 +77,17 @@ export class RegistroScreenComponent implements OnInit{
       });
     }
 
-    if(this.rol == "maestro"){
-      this.maestroService.getMaestroByID(this.idUser).subscribe({
+    if(this.rol == "alumno"){
+      this.alumnoService.getAlumnoByID(this.idUser).subscribe({
         next: (response)=>{
           this.user = response;
-          //Agregamos valores faltantes
+          // Agregamos Valores Faltantes
           this.user.first_name = response.user.first_name;
           this.user.last_name = response.user.last_name;
           this.user.email = response.user.email;
           this.user.tipo_usuario = this.rol;
-          this.isMaestro = true;
-          console.log("Datos maestro: ", this.user);
+          this.isAlumno = true;
+          //console.log("Datos Alumno: ", this.user);
         },
         error: (error)=>{
           alert("No se pudieron obtener los datos del usuario para editar");
@@ -93,6 +95,23 @@ export class RegistroScreenComponent implements OnInit{
       });
     }
 
+    if(this.rol == "maestro"){
+      this.maestroService.getMaestroByID(this.idUser).subscribe({
+        next: (response)=>{
+          this.user = response;
+          // Agregamos Valores Faltantes
+          this.user.first_name = response.user.first_name;
+          this.user.last_name = response.user.last_name;
+          this.user.email = response.user.email;
+          this.user.tipo_usuario = this.rol;
+          this.isMaestro = true;
+          //console.log("Datos Maestro: ", this.user);
+        },
+        error: (error)=>{
+          alert("No se pudieron obtener los datos del usuario para editar");
+        }
+      });
+    }
   }
 
   public radioChange(event: MatRadioChange) {

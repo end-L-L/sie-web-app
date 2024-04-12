@@ -57,9 +57,9 @@
         <section class="registro-admin" *ngIf="isAdmin">
           <app-registro-admin [rol]="tipo_user" [datos_user]="user"></app-registro-admin>
         </section>
-         <!-- Formulario del alumno -->
+         <!-- Formulario del Alumno -->
         <section class="registro-alumno" *ngIf="isAlumno">
-          <app-registro-alumno [rol]="tipo_user"></app-registro-alumno>
+          <app-registro-alumno [rol]="tipo_user" [datos_user]="user"></app-registro-alumno>
         </section>
          <!-- Formulario del Maestro -->
         <section class="registro-maestro" *ngIf="isMaestro">
