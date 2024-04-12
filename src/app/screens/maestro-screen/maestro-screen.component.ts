@@ -71,7 +71,7 @@ export class MaestroScreenComponent implements OnInit{
     },500);
   }
 
-  //Obtener Maestros
+  // Obtener Maestros
   public obtenerMaestros(){
     this.maestroService.obtenerListaMaestros().subscribe({
       next: (response)=>{
@@ -96,7 +96,7 @@ export class MaestroScreenComponent implements OnInit{
 
   // Función para Editar
   public goEditar(idUser: number){
-    //this.router.navigate(["registro/"+idUser]);
+    this.router.navigate(["registro-usuarios/maestro/"+idUser]);
   }
 
   // Función para Eliminar

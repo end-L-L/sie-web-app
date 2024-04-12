@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MaestroService } from 'src/app/services/maestro.service';
-import { Router } from '@angular/router';
+import { FacadeService } from 'src/app/services/facade.service';
 
 //JQuery
 declare var $:any;
@@ -11,14 +12,22 @@ declare var $:any;
   templateUrl: './registro-maestro.component.html',
   styleUrls: ['./registro-maestro.component.scss']
 })
+
 export class RegistroMaestroComponent implements OnInit{
 
   @Input() rol:string = "";
+  @Input() datos_user:any = {};
 
   public maestro:any = {};
   public editar:boolean = false;
+  public token: string = "";
+  public idUser: Number = 0;
 
-  //Servicios x Errores
+  // Check
+  public valoresCheckbox: any = [];
+  public materias_json: any [] = [];
+
+  // Servicios x Errores
   public errors:any = {};
 
   // Contraseñas
@@ -53,18 +62,30 @@ export class RegistroMaestroComponent implements OnInit{
   constructor(
     private router: Router,
     private location : Location,
-    private maestroService: MaestroService
+    private activatedRoute: ActivatedRoute,
+    private maestroService: MaestroService,
+    private facadeService: FacadeService
   ){}
 
   ngOnInit(): void {
-    // Esquema -> JSON
-    this.maestro = this.maestroService.esquemaMaestro();
-    this.maestro.rol = this.rol;
-    console.log("Maestro: ", this.maestro);
-    console.log("Rol: ", this.rol);
+
+    // Validar Parametro en URL
+    if(this.activatedRoute.snapshot.params['id'] != undefined){
+      this.editar = true;
+      // Asignamos el ID por URL
+      this.idUser = this.activatedRoute.snapshot.params['id'];
+      console.log("ID User: ", this.idUser);
+      // Asignamos los Datos del Maestro
+      this.maestro = this.datos_user;
+    }else{
+      // Esquema -> JSON
+      this.maestro = this.maestroService.esquemaMaestro();
+      this.maestro.rol = this.rol;
+      this.token = this.facadeService.getSessionToken();
+    }
   }
 
-  // Mostrar password
+  // Mostrar Password
   showPassword(){
     if(this.inputType_1 == 'password'){
       this.inputType_1 = 'text';
@@ -76,7 +97,7 @@ export class RegistroMaestroComponent implements OnInit{
     }
   }
 
-  // Mostrar confirmar password
+  // Mostrar Confirmar Password
   showPwdConfirmar()
   {
     if(this.inputType_2 == 'password'){
@@ -94,7 +115,7 @@ export class RegistroMaestroComponent implements OnInit{
   }
 
   public registrar(){
-    //Validar
+    // Validar
     this.errors = [];
 
     this.errors = this.maestroService.validarMaestro(this.maestro, this.editar);
@@ -121,7 +142,23 @@ export class RegistroMaestroComponent implements OnInit{
 
 
   public actualizar(){
+    // Validar
+    this.errors = [];
 
+    this.errors = this.maestroService.validarMaestro(this.maestro, this.editar);
+    if(!$.isEmptyObject(this.errors)){
+      return false;
+    }
+
+    this.maestroService.editarMaestro(this.maestro).subscribe({
+      next: (response)=>{
+        alert("Maestro Editado Correctamente");
+        this.router.navigate(["home"]);
+      },
+      error: (error)=>{
+        alert("¡Error!: No se Pudo Editar Maestro");
+      }
+    });
   }
 
   public checkboxChange(event:any){
@@ -139,12 +176,26 @@ export class RegistroMaestroComponent implements OnInit{
     console.log("Array materias: ", this.maestro);
   }
 
-  //Función para detectar el cambio de fecha
+  // Función Para Detectar el Cambio de Fecha
   public changeFecha(event :any){
     console.log(event);
     console.log(event.value.toISOString());
 
     this.maestro.fecha_nacimiento = event.value.toISOString().split("T")[0];
     console.log("Fecha: ", this.maestro.fecha_nacimiento);
+  }
+
+  // Función Para Detectar el Cambio de Select
+  public revisarSeleccion(nombre: string){
+    if(this.maestro.materias_json){
+      var busqueda = this.maestro.materias_json.find((element)=>element==nombre);
+      if(busqueda != undefined){
+        return true;
+      }else{
+        return false;
+      }
+    }else{
+      return false;
+    }
   }
 }

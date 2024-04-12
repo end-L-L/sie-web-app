@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Location } from '@angular/common';
-import { FacadeService } from 'src/app/services/facade.service';
+import { ActivatedRoute } from '@angular/router';
 import { AdminService } from 'src/app/services/admin.service';
+import { MaestroService } from 'src/app/services/maestro.service';
 
 @Component({
   selector: 'app-registro-screen',
@@ -19,7 +18,7 @@ export class RegistroScreenComponent implements OnInit{
   // Navbar
   public tipo:string = "registro-usuarios";
 
-  //Banderas para Tipo de Usuario en el Formulario
+  // Banderas para Tipo de Usuario en el Formulario
   public isAdmin:boolean = false;
   public isAlumno:boolean = false;
   public isMaestro:boolean = false;
@@ -34,11 +33,9 @@ export class RegistroScreenComponent implements OnInit{
   public errors:any = {};
 
   constructor(
-    private location : Location,
     public activatedRoute: ActivatedRoute,
-    private router: Router,
-    private facadeService: FacadeService,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private maestroService: MaestroService
   ){}
 
   ngOnInit(): void {
@@ -77,6 +74,25 @@ export class RegistroScreenComponent implements OnInit{
         }
       });
     }
+
+    if(this.rol == "maestro"){
+      this.maestroService.getMaestroByID(this.idUser).subscribe({
+        next: (response)=>{
+          this.user = response;
+          //Agregamos valores faltantes
+          this.user.first_name = response.user.first_name;
+          this.user.last_name = response.user.last_name;
+          this.user.email = response.user.email;
+          this.user.tipo_usuario = this.rol;
+          this.isMaestro = true;
+          console.log("Datos maestro: ", this.user);
+        },
+        error: (error)=>{
+          alert("No se pudieron obtener los datos del usuario para editar");
+        }
+      });
+    }
+
   }
 
   public radioChange(event: MatRadioChange) {
