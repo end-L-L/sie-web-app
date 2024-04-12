@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { AdminService } from 'src/app/services/admin.service';
+import { FacadeService } from 'src/app/services/facade.service';
 
 //JQuery
 declare var $:any;
@@ -10,12 +12,16 @@ declare var $:any;
   templateUrl: './registro-admin.component.html',
   styleUrls: ['./registro-admin.component.scss']
 })
+
 export class RegistroAdminComponent implements OnInit{
 
   @Input() rol: string = "";
+  @Input() datos_user: any = {};
 
   public admin:any = {};
   public editar:boolean = false;
+  public token:string = "";
+  public idUser:string = "";
 
   // Servicios x Errores
   public errors:any = {};
@@ -27,24 +33,37 @@ export class RegistroAdminComponent implements OnInit{
   public inputType_2: string = 'password';
 
   constructor(
+    private router: Router,
+    private location: Location,
+    public activatedRoute: ActivatedRoute,
     private adminService: AdminService,
-    private router: Router
+    private facadeService: FacadeService
   ){}
 
   ngOnInit(): void {
-    //Definir el esquema a mi JSON
-    this.admin = this.adminService.esquemaAdmin();
-    this.admin.rol = this.rol;
-    console.log("Admin: ", this.admin);
-    console.log("Rol: ", this.rol);
+    // Si Existe ID, Entonces se Editará
+    if(this.activatedRoute.snapshot.params['id'] != undefined){
+      this.editar = true;
+      // Obtenemos el ID del Usuario
+      this.idUser = this.activatedRoute.snapshot.params['id'];
+      //console.log("ID User: ", this.idUser);
+      // Obtenemos los Datos del Usuario
+      this.admin = this.datos_user;
+    }else{
+      this.admin = this.adminService.esquemaAdmin();
+      this.admin.rol = this.rol;
+      this.token = this.facadeService.getSessionToken();
+    }
+
+    //console.log("Admin: ", this.admin);
   }
 
   public regresar() {
-
+    this.location.back();
   }
 
   public registrar(){
-    //Validar
+    // Validar
     this.errors = [];
 
     this.errors = this.adminService.validarAdmin(this.admin, this.editar);
@@ -52,6 +71,7 @@ export class RegistroAdminComponent implements OnInit{
       return false;
     }
 
+    // Registrar
     if(this.admin.password == this.admin.confirmar_password){
       this.adminService.registrarAdmin(this.admin).subscribe({
         next: (response) => {
@@ -70,10 +90,26 @@ export class RegistroAdminComponent implements OnInit{
   }
 
   public actualizar(){
+    // Validar
+    this.errors = [];
 
+    this.errors = this.adminService.validarAdmin(this.admin, this.editar);
+    if(!$.isEmptyObject(this.errors)){
+      return false;
+    }
+
+    this.adminService.editarAdmin(this.admin).subscribe({
+      next: (response)=>{
+        alert("Administrador editado correctamente");
+        //lconsole.log("Admin editado: ", response);
+        this.router.navigate(["home"]);
+      }, error: (error)=>{
+        alert("No se pudo editar el administrador");
+      }
+    });
   }
 
-  // Mostrar password
+  // Mostrar Password
   showPassword(){
     if(this.inputType_1 == 'password'){
       this.inputType_1 = 'text';
@@ -85,9 +121,8 @@ export class RegistroAdminComponent implements OnInit{
     }
   }
 
-  // Mostrar confirmar password
-  showPwdConfirmar()
-  {
+  // Mostrar Confirmar Password
+  showPwdConfirmar(){
     if(this.inputType_2 == 'password'){
       this.inputType_2 = 'text';
       this.hide_2 = true;
