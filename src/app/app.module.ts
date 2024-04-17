@@ -33,9 +33,14 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+
+// Screens
 import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
 import { AlumnoScreenComponent } from './screens/alumno-screen/alumno-screen.component';
 import { MaestroScreenComponent } from './screens/maestro-screen/maestro-screen.component';
+
+// Modals
+import { EliminarUsuarioModalComponent } from './modals/eliminar-usuario-modal/eliminar-usuario-modal.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +54,8 @@ import { MaestroScreenComponent } from './screens/maestro-screen/maestro-screen.
     HomeScreenComponent,
     AdminScreenComponent,
     AlumnoScreenComponent,
-    MaestroScreenComponent
+    MaestroScreenComponent,
+    EliminarUsuarioModalComponent
   ],
   imports: [
     BrowserModule,

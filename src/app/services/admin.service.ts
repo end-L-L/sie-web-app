@@ -126,4 +126,11 @@ export class AdminService {
     var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
     return this.http.put<any>(`${environment.url_api}/admin-edit/`, data, {headers:headers});
   }
+
+  // Servicio Para Eliminar Admin
+  public eliminarAdmin(idUser: number): Observable <any>{
+    var token = this.facadeService.getSessionToken();
+    var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
+    return this.http.delete<any>(`${environment.url_api}/admin-edit/?id=${idUser}`,{headers:headers});
+  }
 }
