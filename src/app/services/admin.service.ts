@@ -133,4 +133,11 @@ export class AdminService {
     var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
     return this.http.delete<any>(`${environment.url_api}/admin-edit/?id=${idUser}`,{headers:headers});
   }
+
+  // Obtener Total de Usuarios Registrados
+  public getTotalUsuarios(){
+    var token = this.facadeService.getSessionToken();
+    var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
+    return this.http.get<any>(`${environment.url_api}/admin-edit/`, {headers:headers});
+  }
 }

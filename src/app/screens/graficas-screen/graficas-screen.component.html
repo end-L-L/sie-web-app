@@ -1,0 +1,52 @@
+<div class="wrapper">
+  <div class="section-home">
+    <div class="header-graficas">
+      <app-navbar></app-navbar>
+    </div>
+    <div class="body-home">
+      <div class="container">
+
+        <div class="row mt-3 mb-5" style="text-align: center;">
+          <div class="col-12">
+            <div class="alert alert-primary" role="alert">
+              <span class="title-table">Análisis de Datos</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row w-100 mt-5 mb-5" style="text-align: center;">
+
+          <!-- Gráfico de Barras -->
+          <div class="col-md-4 graph">
+            <canvas baseChart width="400" height="300"
+              chartType="bar"
+              [data]="barChartData"
+              [options]="barChartOptions"
+              [plugins]="barChartPlugins">
+            </canvas>
+          </div>
+
+          <!-- Gráfico de Pastel -->
+          <div class="col-md-4 graph">
+            <canvas baseChart width="400" height="300"
+              type="pie"
+              [data]="pieChartData"
+              [options]="pieChartOption"
+              [plugins]="pieChartPlugins">
+              </canvas>
+          </div>
+
+          <!-- Gráfico de Dona  -->
+          <div class="col-md-4 graph">
+            <canvas baseChart width="400" height="300"
+              type="doughnut"
+              [data]="doughnutChartData"
+              [options]="doughnutChartOption"
+              [plugins]="doughnutChartPlugins">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

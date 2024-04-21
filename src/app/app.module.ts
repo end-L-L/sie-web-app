@@ -38,6 +38,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
 import { AlumnoScreenComponent } from './screens/alumno-screen/alumno-screen.component';
 import { MaestroScreenComponent } from './screens/maestro-screen/maestro-screen.component';
+import { GraficasScreenComponent } from './screens/graficas-screen/graficas-screen.component';
 
 // Modals
 import { EliminarUsuarioModalComponent } from './modals/eliminar-usuario-modal/eliminar-usuario-modal.component';
@@ -55,7 +56,8 @@ import { EliminarUsuarioModalComponent } from './modals/eliminar-usuario-modal/e
     AdminScreenComponent,
     AlumnoScreenComponent,
     MaestroScreenComponent,
-    EliminarUsuarioModalComponent
+    EliminarUsuarioModalComponent,
+    GraficasScreenComponent
   ],
   imports: [
     BrowserModule,
