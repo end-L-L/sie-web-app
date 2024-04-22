@@ -5,7 +5,7 @@ import { FacadeService } from 'src/app/services/facade.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { EliminarUsuarioModalComponent } from 'src/app/modals/eliminar-usuario-modal/eliminar-usuario-modal.component';
+import { ActionModalComponent } from 'src/app/modals/action-modal/action-modal.component';
 
 @Component({
   selector: 'app-alumno-screen',
@@ -97,30 +97,37 @@ export class AlumnoScreenComponent implements OnInit{
     });
   }
 
-  // Función para Editar
-  public goEditar(idUser: number){
-    this.router.navigate(["registro-usuarios/alumno/"+idUser]);
+  goEditar(idUser: number){
+    const dialogRef = this.dialog.open(ActionModalComponent,{
+      data: {id: idUser, action: "editar", opc: 2}, // Enviar Datos al Modal
+      height: '288px',
+      width: '328px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.isEdit){
+        window.location.reload();
+      }else{
+        alert("Sin Acción");
+      }
+    });
   }
 
-  public delete(idUser: number){
-    const dialogRef = this.dialog.open(EliminarUsuarioModalComponent,{
-      data: {id: idUser, rol: 'alumno'}, // Enviar Datos al Modal
+  goEliminar(idUser: number){
+    const dialogRef = this.dialog.open(ActionModalComponent,{
+      data: {id: idUser, action: "eliminar", opc: 2},
       height: '288px',
       width: '328px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result.isDelete){
-        console.log("Alumno eliminado");
-        // Recargar Página
         window.location.reload();
       }else{
-        alert("Alumno no eliminado ");
-        console.log("No se eliminó el alumno");
+        alert("Sin Acción");
       }
     });
   }
-
 }
 
 export interface DatosUsuario {

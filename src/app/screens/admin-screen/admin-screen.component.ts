@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminService } from 'src/app/services/admin.service';
 import { FacadeService } from 'src/app/services/facade.service';
-import { EliminarUsuarioModalComponent } from 'src/app/modals/eliminar-usuario-modal/eliminar-usuario-modal.component';
+import { ActionModalComponent } from 'src/app/modals/action-modal/action-modal.component';
 
 
 @Component({
@@ -20,7 +19,6 @@ export class AdminScreenComponent implements OnInit{
   constructor(
     private facadeService: FacadeService,
     private adminService: AdminService,
-    private router: Router,
     public dialog: MatDialog
   ) { }
 
@@ -30,7 +28,7 @@ export class AdminScreenComponent implements OnInit{
     this.obtenerAdmins();
   }
 
-   // Obtener Lista de Administradores
+  // Obtener Lista de Administradores
   public obtenerAdmins(){
     this.adminService.obtenerListaAdmins().subscribe({
       next: (response)=>{
@@ -43,26 +41,34 @@ export class AdminScreenComponent implements OnInit{
     });
   }
 
-  // Función Editar Admin
-  public goEditar(idUser: number){
-    this.router.navigate(["registro-usuarios/administrador/"+idUser]);
+  goEditar(idUser: number){
+    const dialogRef = this.dialog.open(ActionModalComponent,{
+      data: {id: idUser, action: "editar", opc: 1}, // Enviar Datos al Modal
+      height: '288px',
+      width: '328px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.isEdit){
+        window.location.reload();
+      }else{
+        alert("Sin Acción");
+      }
+    });
   }
 
-  public delete(idUser: number){
-    const dialogRef = this.dialog.open(EliminarUsuarioModalComponent,{
-      data: {id: idUser, rol: 'administrador'}, // Enviar Datos al Modal
+  goEliminar(idUser: number){
+    const dialogRef = this.dialog.open(ActionModalComponent,{
+      data: {id: idUser, action: "eliminar", opc: 1},
       height: '288px',
       width: '328px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result.isDelete){
-        console.log("Admin eliminado");
-        // Recargar Página
         window.location.reload();
       }else{
-        alert("Administrador no eliminado ");
-        console.log("No se eliminó el admin");
+        alert("Sin Acción");
       }
     });
   }

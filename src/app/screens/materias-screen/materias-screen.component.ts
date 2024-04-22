@@ -110,7 +110,7 @@ export class MateriasScreenComponent implements OnInit{
 
   goEditarMateria(nrc:number){
     const dialogRef = this.dialog.open(ActionModalComponent,{
-      data: {id: nrc, action: "editar"},
+      data: {id: nrc, action: "editar", opc: 4},
       height: '288px',
       width: '328px',
     });
@@ -126,7 +126,7 @@ export class MateriasScreenComponent implements OnInit{
   
   goEliminarMateria(nrc:number){
     const dialogRef = this.dialog.open(ActionModalComponent,{
-      data: {id: nrc, action: "eliminar"},
+      data: {id: nrc, action: "eliminar", opc: 4},
       height: '288px',
       width: '328px',
     });

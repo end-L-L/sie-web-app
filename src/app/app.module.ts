@@ -41,7 +41,6 @@ import { MaestroScreenComponent } from './screens/maestro-screen/maestro-screen.
 import { GraficasScreenComponent } from './screens/graficas-screen/graficas-screen.component';
 
 // Modals
-import { EliminarUsuarioModalComponent } from './modals/eliminar-usuario-modal/eliminar-usuario-modal.component';
 import { RegistroMateriaScreenComponent } from './screens/registro-materia-screen/registro-materia-screen.component';
 
 // Ngx
@@ -64,7 +63,6 @@ import { ActionModalComponent } from './modals/action-modal/action-modal.compone
     AdminScreenComponent,
     AlumnoScreenComponent,
     MaestroScreenComponent,
-    EliminarUsuarioModalComponent,
     GraficasScreenComponent,
     RegistroMateriaScreenComponent,
     MateriasScreenComponent,
