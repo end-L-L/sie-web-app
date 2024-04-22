@@ -47,6 +47,8 @@ import { RegistroMateriaScreenComponent } from './screens/registro-materia-scree
 // Ngx
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MateriasScreenComponent } from './screens/materias-screen/materias-screen.component';
+import { ActionModalComponent } from './modals/action-modal/action-modal.component';
 
 
 @NgModule({
@@ -64,7 +66,9 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MaestroScreenComponent,
     EliminarUsuarioModalComponent,
     GraficasScreenComponent,
-    RegistroMateriaScreenComponent
+    RegistroMateriaScreenComponent,
+    MateriasScreenComponent,
+    ActionModalComponent
   ],
   imports: [
     BrowserModule,

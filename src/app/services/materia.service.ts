@@ -94,6 +94,13 @@ export class MateriaService {
     return this.http.get<any>(`${environment.url_api}/materia/?nrc=${nrc}`, httpOptions);
   }
 
+  // Obtener Lista Materias
+  public obtenerListaMaterias (): Observable <any>{
+    var token = this.facadeService.getSessionToken();
+    var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
+    return this.http.get<any>(`${environment.url_api}/lista-materias/`, {headers:headers});
+  }
+
   // Actualizar Materia
   public editarMateria (data: any): Observable <any>{
     var token = this.facadeService.getSessionToken();

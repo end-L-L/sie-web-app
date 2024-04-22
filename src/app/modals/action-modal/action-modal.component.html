@@ -1,0 +1,20 @@
+<div class="wrapper">
+   <div class="icon-close">
+       <button class="btn" (click)="closeModal()">
+           <i class="bi bi-x-lg"></i>
+       </button>
+   </div>
+   <div class="body-modal">
+       <h1 class="title-modal">{{field_1}} {{field_2}}</h1>
+       <span class="descripcion">Estás a punto de {{field_1}} este {{field_2}}. ¿Deseas Continuar?.</span>
+       <div class="buttons-modal">
+           <button mat-button class="btn-regresar" (click)="closeModal()">
+               Cancelar
+           </button>
+           <button mat-button class="btn-eliminar" (click)="actionModal()">
+               {{action}}
+           </button>
+       </div>
+   </div>
+ </div>
+ 

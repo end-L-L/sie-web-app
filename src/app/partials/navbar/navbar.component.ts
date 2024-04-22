@@ -53,22 +53,35 @@ export class NavbarComponent implements OnInit{
 
   public activarLink(link: string){
     if(link == "alumnos"){
+      $("materias").removeClass("active");
+      $("#graficas").removeClass("active");
       $("#principal").removeClass("active");
       $("#maestro").removeClass("active");
       $("#alumno").addClass("active");
     }else if(link == "maestros"){
+      $("materias").removeClass("active");
+      $("#graficas").removeClass("active");
       $("#principal").removeClass("active");
       $("#alumno").removeClass("active");
       $("#maestro").addClass("active");
     }else if(link == "home"){
+      $("materias").removeClass("active");
+      $("#graficas").removeClass("active");
       $("#alumno").removeClass("active");
       $("#maestro").removeClass("active");
       $("#principal").addClass("active");
     }else if(link == "graficas"){
+      $("materias").removeClass("active");
       $("#alumno").removeClass("active");
       $("#maestro").removeClass("active");
       $("#principal").removeClass("active");
       $("#graficas").addClass("active");
+    } else if(link == "materias"){
+      $("#graficas").removeClass("active");
+      $("#principal").removeClass("active");
+      $("#alumno").removeClass("active");
+      $("#maestro").removeClass("active");
+      $("#materias").addClass("active");
     }
   }
 }

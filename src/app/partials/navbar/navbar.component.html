@@ -16,21 +16,21 @@
             <li class="nav-item" *ngIf="rol!='maestro' && rol!='alumno'">
               <a class="nav-link" id="maestro" (click)="clickNavLink('maestros')">Maestros</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link">Lista de materias</a>
+            <li class="nav-item" *ngIf="rol!='alumno'">
+              <a class="nav-link" id="materias" (click)="clickNavLink('materias')">Lista de Materias</a>
             </li>
             <li class="nav-item" *ngIf="rol=='administrador'">
               <a class="nav-link" id="graficas" (click)="clickNavLink('graficas')">Gráficas</a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="rol!='alumno'">
               <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Registrar
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" (click)="goRegistro()" *ngIf="rol!='alumno'">Alumnos</a></li>
                 <li><a class="dropdown-item" (click)="goRegistro()" *ngIf="rol!='maestro' && rol!='alumno'">Maestros</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="registro-materia">Materias</a></li>
+                <li *ngIf="rol!='maestro'"><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" *ngIf="rol!='maestro' && rol!='alumno'" href="registro-materia">Materias</a></li>
               </ul>
             </li>
           </ng-container>
