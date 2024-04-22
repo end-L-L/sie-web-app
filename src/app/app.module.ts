@@ -42,6 +42,12 @@ import { GraficasScreenComponent } from './screens/graficas-screen/graficas-scre
 
 // Modals
 import { EliminarUsuarioModalComponent } from './modals/eliminar-usuario-modal/eliminar-usuario-modal.component';
+import { RegistroMateriaScreenComponent } from './screens/registro-materia-screen/registro-materia-screen.component';
+
+// Ngx
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+
 
 @NgModule({
   declarations: [
@@ -57,7 +63,8 @@ import { EliminarUsuarioModalComponent } from './modals/eliminar-usuario-modal/e
     AlumnoScreenComponent,
     MaestroScreenComponent,
     EliminarUsuarioModalComponent,
-    GraficasScreenComponent
+    GraficasScreenComponent,
+    RegistroMateriaScreenComponent
   ],
   imports: [
     BrowserModule,
@@ -76,9 +83,14 @@ import { EliminarUsuarioModalComponent } from './modals/eliminar-usuario-modal/e
     MatCheckboxModule,
     MatDialogModule,
     MatSelectModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
+    NgxMaterialTimepickerModule
   ],
-  providers: [],
+  providers: [
+    provideNgxMask()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
