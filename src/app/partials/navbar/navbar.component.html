@@ -8,19 +8,19 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <ng-container *ngIf="tipo!='registro-usuarios'; else registraUsers">
             <li class="nav-item">
-              <a class="nav-link active" id="principal" aria-current="page" (click)="clickNavLink('home')">Inicio</a>
+              <a class="nav-link" routerLink="/home" routerLinkActive="active">Inicio</a>
             </li>
             <li class="nav-item" *ngIf="rol!='alumno'">
-              <a class="nav-link" id="alumno" aria-current="page" (click)="clickNavLink('alumnos')">Alumnos</a>
+              <a class="nav-link" routerLink="/alumnos" routerLinkActive="active">Alumnos</a>
             </li>
             <li class="nav-item" *ngIf="rol!='maestro' && rol!='alumno'">
-              <a class="nav-link" id="maestro" (click)="clickNavLink('maestros')">Maestros</a>
+              <a class="nav-link" routerLink="/maestros" routerLinkActive="active">Maestros</a>
             </li>
             <li class="nav-item" *ngIf="rol!='alumno'">
-              <a class="nav-link" id="materias" (click)="clickNavLink('materias')">Lista de Materias</a>
+              <a class="nav-link" routerLink="/materias" routerLinkActive="active">Lista de Materias</a>
             </li>
             <li class="nav-item" *ngIf="rol=='administrador'">
-              <a class="nav-link" id="graficas" (click)="clickNavLink('graficas')">Gráficas</a>
+              <a class="nav-link" routerLink="/graficas" routerLinkActive="active">Gráficas</a>
             </li>
             <li class="nav-item dropdown" *ngIf="rol!='alumno'">
               <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -115,9 +115,6 @@ export class RegistroScreenComponent implements OnInit{
   }
 
   public radioChange(event: MatRadioChange) {
-
-    //console.log(event)
-
     if(event.value == "administrador"){
       this.isAdmin = true;
       this.tipo_user = "administrador"

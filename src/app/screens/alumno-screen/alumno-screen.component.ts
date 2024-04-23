@@ -7,6 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ActionModalComponent } from 'src/app/modals/action-modal/action-modal.component';
 
+declare var $:any;
+
 @Component({
   selector: 'app-alumno-screen',
   templateUrl: './alumno-screen.component.html',
@@ -34,22 +36,22 @@ export class AlumnoScreenComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-    this.name_user = this.facadeService.getUserCompleteName();
-    this.rol = this.facadeService.getUserGroup();
-
     // Login Token
     this.token = this.facadeService.getSessionToken();
 
     // No Token, Login
     if(this.token == ""){
       this.router.navigate([""]);
+    }else{
+      this.name_user = this.facadeService.getUserCompleteName();
+      this.rol = this.facadeService.getUserGroup();
+      
+      // Lista de Alumnos
+      this.obtenerAlumnos();
+
+      // Paginador
+      this.initPaginator();
     }
-
-    // Lista de Alumnos
-    this.obtenerAlumnos();
-
-    // Paginador
-    this.initPaginator();
   }
 
   // Paginación

@@ -40,16 +40,16 @@ export class MaestroScreenComponent implements OnInit{
     // No Token, Login
     if(this.token == ""){
       this.router.navigate([""]);
+    }else{
+      this.name_user = this.facadeService.getUserCompleteName();
+      this.rol = this.facadeService.getUserGroup();
+  
+      // Lista de Maestros
+      this.obtenerMaestros();
+  
+      // Paginador
+      this.initPaginator();
     }
-
-    this.name_user = this.facadeService.getUserCompleteName();
-    this.rol = this.facadeService.getUserGroup();
-
-    // Lista de Maestros
-    this.obtenerMaestros();
-
-    // Paginador
-    this.initPaginator();
   }
 
   // Paginación

@@ -17,6 +17,7 @@ declare var $: any;
 export class RegistroMateriaScreenComponent implements OnInit {
 
   // Propiedades
+  public token:string = "";
   public editar:boolean = false;
   public materia:any = {};
   public nrc:Number = 0;
@@ -47,14 +48,21 @@ export class RegistroMateriaScreenComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.materia = this.materiaService.esquemaMateria();
-    console.log("Materia: ", this.materia);
+    this.token = this.facadeService.getSessionToken();
 
-    if(this.activatedRoute.snapshot.params['nrc'] != undefined){
-      // NRC Existe, Entonces Estamos Editando
-      this.editar = true;
-      this.nrc = this.activatedRoute.snapshot.params['nrc'];
-      this.obtenerMateriaByNRC();
+    if(this.token == ""){
+      this.router.navigate(['']);
+    }else{
+
+      this.materia = this.materiaService.esquemaMateria();
+      console.log("Materia: ", this.materia);
+
+      if(this.activatedRoute.snapshot.params['nrc'] != undefined){
+        // NRC Existe, Entonces Estamos Editando
+        this.editar = true;
+        this.nrc = this.activatedRoute.snapshot.params['nrc'];
+        this.obtenerMateriaByNRC();
+      }
     }
   }
 

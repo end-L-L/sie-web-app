@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AdminService } from 'src/app/services/admin.service';
 import { FacadeService } from 'src/app/services/facade.service';
 import { ActionModalComponent } from 'src/app/modals/action-modal/action-modal.component';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -13,19 +14,26 @@ import { ActionModalComponent } from 'src/app/modals/action-modal/action-modal.c
 
 export class AdminScreenComponent implements OnInit{
 
+  public token:string = "";
   public name_user:string = "";
   public lista_admins:any[]= [];
 
   constructor(
     private facadeService: FacadeService,
     private adminService: AdminService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public router: Router
   ) { }
 
   ngOnInit(): void {
-    this.name_user = this.facadeService.getUserCompleteName();
-    // Lista de Admins
-    this.obtenerAdmins();
+    this.token = this.facadeService.getSessionToken();
+
+    if(this.token == ""){
+      this.router.navigate(['']);
+    }else{
+      this.name_user = this.facadeService.getUserCompleteName();
+      this.obtenerAdmins();
+    }
   }
 
   // Obtener Lista de Administradores

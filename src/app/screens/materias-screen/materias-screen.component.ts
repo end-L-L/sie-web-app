@@ -41,26 +41,24 @@ export class MateriasScreenComponent implements OnInit{
 
   ngOnInit(): void {
     
-    // Obtener Token
     this.token = this.facadeService.getSessionToken();
     
-    // Validar Existencia de Token
     if(this.token == ""){
       this.router.navigate([""]);
-    }
+    }else{
+      this.rol = this.facadeService.getUserGroup();
+      this.name_user = this.facadeService.getUserCompleteName();
+      
+      if(this.rol != "administrador"){
+        this.displayedColumnsMateria = ['nrc', 'nombre', 'seccion', 'dias', 'horaInicio', 'horaFinal', 'salon', 'programa'];
+      }
+      
+      // Obtener Lista de Usuarios
+      this.obtenerMaterias();
 
-    this.rol = this.facadeService.getUserGroup();
-    this.name_user = this.facadeService.getUserCompleteName();
-    
-    if(this.rol != "administrador"){
-      this.displayedColumnsMateria = ['nrc', 'nombre', 'seccion', 'dias', 'horaInicio', 'horaFinal', 'salon', 'programa'];
+      // Iniciar Paginator
+      this.initPaginator();
     }
-    
-    // Obtener Lista de Usuarios
-    this.obtenerMaterias();
-
-    // Iniciar Paginator
-    this.initPaginator();
   }
 
   // Función Para Obtener la Lista de Materias
