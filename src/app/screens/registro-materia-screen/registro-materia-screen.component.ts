@@ -55,7 +55,7 @@ export class RegistroMateriaScreenComponent implements OnInit {
     }else{
 
       this.materia = this.materiaService.esquemaMateria();
-      console.log("Materia: ", this.materia);
+      //console.log("Materia: ", this.materia);
 
       if(this.activatedRoute.snapshot.params['nrc'] != undefined){
         // NRC Existe, Entonces Estamos Editando
@@ -117,7 +117,7 @@ export class RegistroMateriaScreenComponent implements OnInit {
     this.materiaService.editarMateria(this.materia).subscribe({
       next: (response)=>{
         alert("Materia editada correctamente");
-        console.log("Materia editada: ", response);
+        //console.log("Materia editada: ", response);
         this.router.navigate(["home"]);
       }, 
       error: (error)=>{
@@ -131,7 +131,7 @@ export class RegistroMateriaScreenComponent implements OnInit {
     if(event.checked){
       this.materia.dias_json.push(event.source.value)
     }else{
-      console.log(event.source.value);
+      //console.log(event.source.value);
       this.materia.dias_json.forEach((materia: any, i: any) => {
       
         if(materia == event.source.value){

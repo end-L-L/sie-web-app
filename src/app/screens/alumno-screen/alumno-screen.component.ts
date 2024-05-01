@@ -23,7 +23,7 @@ export class AlumnoScreenComponent implements OnInit{
   public lista_alumnos: any[] = [];
 
   // Tabla de Datos de Alumnos
-  displayedColumns: string[] = ['matricula', 'nombre', 'email', 'fecha_nacimiento', 'edad', 'curp', 'rfc', 'telefono', 'ocupacion', 'editar', 'eliminar'];
+  displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<DatosUsuario>(this.lista_alumnos as DatosUsuario[]);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -51,6 +51,9 @@ export class AlumnoScreenComponent implements OnInit{
 
       // Paginador
       this.initPaginator();
+
+      // Mostrar Columnas
+      this.mostrarColumnas();
     }
   }
 
@@ -81,7 +84,7 @@ export class AlumnoScreenComponent implements OnInit{
     this.alumnoService.obtenerListaAlumnos().subscribe({
       next: (response: any)=>{
         this.lista_alumnos = response;
-        console.log("Lista users: ", this.lista_alumnos);
+        //console.log("Lista users: ", this.lista_alumnos);
         if(this.lista_alumnos.length > 0){
           // Agregar Datos de Usuario
           this.lista_alumnos.forEach(usuario => {
@@ -129,6 +132,15 @@ export class AlumnoScreenComponent implements OnInit{
         alert("Sin Acción");
       }
     });
+  }
+
+   // Función Para Mostrar Columnas
+   public mostrarColumnas(){
+    if(this.rol == "administrador" || this.rol == "maestro"){
+      this.displayedColumns =['matricula', 'nombre', 'email', 'fecha_nacimiento', 'edad', 'curp', 'rfc', 'telefono', 'ocupacion', 'editar', 'eliminar'];
+    }else if(this.rol == "alumno"){
+      this.displayedColumns = ['matricula', 'nombre', 'email', 'fecha_nacimiento', 'edad', 'curp', 'rfc', 'telefono', 'ocupacion'];
+    }
   }
 }
 

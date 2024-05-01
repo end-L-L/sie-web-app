@@ -44,14 +44,14 @@ export class RegistroScreenComponent implements OnInit{
     // Obtenemos el Rol por la URL (Si Existe)
     if(this.activatedRoute.snapshot.params['rol'] != undefined){
       this.rol = this.activatedRoute.snapshot.params['rol'];
-      console.log("Rol detect: ", this.rol);
+      //console.log("Rol detect: ", this.rol);
     }
     // Obenemos el ID por la URL (Si Existe)
     if(this.activatedRoute.snapshot.params['id'] != undefined){
       this.editar = true;
       // Asignamos el ID del Usuario
       this.idUser = this.activatedRoute.snapshot.params['id'];
-      console.log("ID User: ", this.idUser);
+      //console.log("ID User: ", this.idUser);
       // Se Obtiene el ID del Usuario al Cargar la Página
       this.obtenerUserByID();
     }

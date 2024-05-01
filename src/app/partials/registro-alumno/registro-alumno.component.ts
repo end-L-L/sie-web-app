@@ -45,7 +45,7 @@ export class RegistroAlumnoComponent implements OnInit{
       this.editar = true;
       // Asignamos el ID por URL
       this.idUser = this.activatedRoute.snapshot.params['id'];
-      console.log("ID User: ", this.idUser);
+      //console.log("ID User: ", this.idUser);
       // Asignamos los Datos del Maestro
       this.alumno = this.datos_user;
     }else{
@@ -133,10 +133,9 @@ export class RegistroAlumnoComponent implements OnInit{
 
   // Función para Detectar el Cambio de Fecha
   public changeFecha(event :any){
-    console.log(event);
-    console.log(event.value.toISOString());
-
+    //console.log(event);
+    //console.log(event.value.toISOString());
     this.alumno.fecha_nacimiento = event.value.toISOString().split("T")[0];
-    console.log("Fecha: ", this.alumno.fecha_nacimiento);
+    //console.log("Fecha: ", this.alumno.fecha_nacimiento);
   }
 }

@@ -127,7 +127,7 @@ export class GraficasScreenComponent implements OnInit {
   obtenerTotalUsuarios() {
     this.adminServices.getTotalUsuarios().subscribe({
       next: (data) => {
-        console.log('Datos:', data);
+        //console.log('Datos:', data);
         this.updateChartData(data);
         this.cdr.detectChanges();
       },

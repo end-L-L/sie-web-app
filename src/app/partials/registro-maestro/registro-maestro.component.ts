@@ -74,7 +74,7 @@ export class RegistroMaestroComponent implements OnInit{
       this.editar = true;
       // Asignamos el ID por URL
       this.idUser = this.activatedRoute.snapshot.params['id'];
-      console.log("ID User: ", this.idUser);
+      //console.log("ID User: ", this.idUser);
       // Asignamos los Datos del Maestro
       this.maestro = this.datos_user;
     }else{
@@ -166,23 +166,22 @@ export class RegistroMaestroComponent implements OnInit{
     if(event.checked){
       this.maestro.materias_json.push(event.source.value)
     }else{
-      console.log(event.source.value);
+      //console.log(event.source.value);
       this.maestro.materias_json.forEach((materia: any, i: any) => {
         if(materia == event.source.value){
           this.maestro.materias_json.splice(i,1)
         }
       });
     }
-    console.log("Array materias: ", this.maestro);
+    //console.log("Array materias: ", this.maestro);
   }
 
   // Función Para Detectar el Cambio de Fecha
   public changeFecha(event :any){
-    console.log(event);
-    console.log(event.value.toISOString());
-
+    //console.log(event);
+    //console.log(event.value.toISOString());
     this.maestro.fecha_nacimiento = event.value.toISOString().split("T")[0];
-    console.log("Fecha: ", this.maestro.fecha_nacimiento);
+    //console.log("Fecha: ", this.maestro.fecha_nacimiento);
   }
 
   // Función Para Detectar el Cambio de Select

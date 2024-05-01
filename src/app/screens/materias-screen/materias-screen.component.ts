@@ -23,7 +23,7 @@ export class MateriasScreenComponent implements OnInit{
   public name_user:string = "";
   public dataColumns:string[];
 
-  displayedColumnsMateria: string[] = ['nrc', 'nombre', 'seccion', 'dias', 'horaInicio', 'horaFinal', 'salon', 'programa', 'editar', 'eliminar'];
+  displayedColumns: string[] = [];
   dataSourceMateria = new MatTableDataSource<DatosMateria>(this.lista_materias as DatosMateria[]);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -48,16 +48,15 @@ export class MateriasScreenComponent implements OnInit{
     }else{
       this.rol = this.facadeService.getUserGroup();
       this.name_user = this.facadeService.getUserCompleteName();
-      
-      if(this.rol != "administrador"){
-        this.displayedColumnsMateria = ['nrc', 'nombre', 'seccion', 'dias', 'horaInicio', 'horaFinal', 'salon', 'programa'];
-      }
-      
+            
       // Obtener Lista de Usuarios
       this.obtenerMaterias();
 
       // Iniciar Paginator
       this.initPaginator();
+
+      // Mostrar Columnas
+      this.mostrarColumnas();
     }
   }
 
@@ -66,7 +65,7 @@ export class MateriasScreenComponent implements OnInit{
     this.materiaService.obtenerListaMaterias().subscribe({
       next: (response)=>{
         this.lista_materias = response;
-        console.log("Lista materias: ", this.lista_materias);
+        //console.log("Lista materias: ", this.lista_materias);
         if(this.lista_materias.length > 0){
           this.dataSourceMateria = new MatTableDataSource<DatosMateria>(this.lista_materias as DatosMateria[]);
         }
@@ -136,6 +135,15 @@ export class MateriasScreenComponent implements OnInit{
         alert("Sin Acción");
       }
     });
+  }
+
+  // Función Para Mostrar Columnas
+  public mostrarColumnas(){
+    if(this.rol == "administrador"){
+      this.displayedColumns = ['nrc', 'nombre', 'seccion', 'dias', 'horaInicio', 'horaFinal', 'salon', 'programa', 'editar', 'eliminar'];
+    }else if(this.rol == "maestro"){
+      this.displayedColumns = ['nrc', 'nombre', 'seccion', 'dias', 'horaInicio', 'horaFinal', 'salon', 'programa'];
+    }
   }
 }
 

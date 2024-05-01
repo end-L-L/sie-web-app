@@ -41,10 +41,9 @@ export class AdminScreenComponent implements OnInit{
     this.adminService.obtenerListaAdmins().subscribe({
       next: (response)=>{
         this.lista_admins = response;
-        console.log("Lista users: ", this.lista_admins);
       },
       error: (error)=>{
-        alert("No se pudo obtener la lista de admins");
+        alert("¡Error!: Lista no Obtenida");
       }
     });
   }

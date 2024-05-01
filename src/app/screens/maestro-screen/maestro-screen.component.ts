@@ -21,7 +21,8 @@ export class MaestroScreenComponent implements OnInit{
   public lista_maestros: any[] = [];
 
   // Tabla de Datos de Maestros
-  displayedColumns: string[] = ['id_trabajador', 'nombre', 'email', 'fecha_nacimiento', 'telefono', 'rfc', 'cubiculo', 'area_investigacion', 'materias_json','editar', 'eliminar'];
+  //displayedColumns: string[] = ['id_trabajador', 'nombre', 'email', 'fecha_nacimiento', 'telefono', 'rfc', 'cubiculo', 'area_investigacion', 'materias_json','editar', 'eliminar'];
+  displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<DatosUsuario>(this.lista_maestros as DatosUsuario[]);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -49,6 +50,9 @@ export class MaestroScreenComponent implements OnInit{
   
       // Paginador
       this.initPaginator();
+
+      // Mostrar Columnas de la Tabla
+      this.mostrarColumnas();
     }
   }
 
@@ -79,7 +83,6 @@ export class MaestroScreenComponent implements OnInit{
     this.maestroService.obtenerListaMaestros().subscribe({
       next: (response)=>{
         this.lista_maestros = response;
-        console.log("Lista users: ", this.lista_maestros);
         if(this.lista_maestros.length > 0){
           // Agregar Campos de Usuario
           this.lista_maestros.forEach(usuario => {
@@ -87,8 +90,6 @@ export class MaestroScreenComponent implements OnInit{
             usuario.last_name = usuario.user.last_name;
             usuario.email = usuario.user.email;
           });
-          console.log("Otro user: ", this.lista_maestros);
-
           this.dataSource = new MatTableDataSource<DatosUsuario>(this.lista_maestros as DatosUsuario[]);
         }
       }, error: (error)=>{
@@ -127,6 +128,15 @@ export class MaestroScreenComponent implements OnInit{
         alert("Sin Acción");
       }
     });
+  }
+
+  // Función para Mostrar Columnas de la Tabla
+  mostrarColumnas(){
+    if(this.rol == "administrador"){
+      this.displayedColumns = ['id_trabajador', 'nombre', 'email', 'fecha_nacimiento', 'telefono', 'rfc', 'cubiculo', 'area_investigacion', 'materias_json','editar', 'eliminar'];
+    }else{
+      this.displayedColumns = ['id_trabajador', 'nombre', 'email', 'fecha_nacimiento', 'telefono', 'rfc', 'cubiculo', 'area_investigacion', 'materias_json'];
+    }
   }
 }
 
